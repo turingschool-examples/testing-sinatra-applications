@@ -12,4 +12,12 @@ class Talker < Sinatra::Base
   	"How are you?"
   end
 
+  post '/hello' do
+  	"Hello, #{params['name']}!"
+  end
+
+  post '/food-question' do
+  	"Do you like #{params['food']}?"
+  end
+
 end

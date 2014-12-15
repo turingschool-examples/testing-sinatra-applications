@@ -30,4 +30,14 @@ class TalkerTest < Minitest::Test
   	# test for the correct error message
   end
 
+  def test_it_says_hello_when_given_a_name_parameter
+  	post '/hello', {name: "Rachel"}
+  	assert last_response.ok?
+  	assert last_response.body.include?("Rachel")
+  end
+
+  def test_it_asks_a_question_when_given_a_food_parameter
+  	# implement me!
+  end
+
 end
