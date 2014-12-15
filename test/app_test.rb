@@ -40,4 +40,14 @@ class TalkerTest < Minitest::Test
   	# implement me!
   end
 
+  def test_it_knows_our_favorite_language
+  	get '/language/ruby'
+  	assert last_response.ok?
+  	assert_equal "ruby is a great language", last_response.body
+  end
+
+  # def test_it...
+  	# add a test for another url parameter
+  # end
+
 end

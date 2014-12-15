@@ -20,4 +20,8 @@ class Talker < Sinatra::Base
   	"Do you like #{params['food']}?"
   end
 
+  get '/language/:name' do
+  	"#{params[:name]} is a great language"
+  end
+
 end
