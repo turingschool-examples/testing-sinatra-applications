@@ -24,4 +24,12 @@ class Talker < Sinatra::Base
   	"#{params[:name]} is a great language"
   end
 
+  get '/goodbye/:name' do
+    redirect to("/say/goodbye/#{params[:name]}")
+  end
+
+  get '/say/:something/:name' do
+    "#{params[:something]} #{params[:name]}"
+  end
+
 end

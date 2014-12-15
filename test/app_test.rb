@@ -46,8 +46,15 @@ class TalkerTest < Minitest::Test
   	assert_equal "ruby is a great language", last_response.body
   end
 
+  def test_it_follows_a_redirect
+  	get '/goodbye/rachel'
+  	assert_equal 302, last_response.status #redirect
+  	follow_redirect!
+  	assert_equal "goodbye rachel", last_response.body
+  end
+
   # def test_it...
-  	# add a test for another url parameter
+  	# add a test for another redirect
   # end
 
 end
