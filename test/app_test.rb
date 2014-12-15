@@ -2,59 +2,44 @@ require 'sinatra/base'
 require_relative '../lib/app.rb'
 require 'minitest/autorun'
 require 'rack/test'
+require 'nokogiri'
 
 class TalkerTest < Minitest::Test
 	include Rack::Test::Methods
 
 	def app
-    Talker.new
-  end
+		Talker.new
+	end
 
-  def test_it_says_hello_world
-    get '/'
-    assert last_response.ok?
-    assert_equal 200, last_response.status
-    assert_equal "Hello, World", last_response.body
-  end
+	def test_it_says_a_default_phrase
+		get '/say/I-Like-Testing-Sinatra'
+		html = Nokogiri::HTML(last_response.body)
+		assert last_response.ok?
+		assert_equal "I-Like-Testing-Sinatra", html.css('title').text
+		assert_equal 6, html.css('li').size
+		assert_empty html.css('section')
+		assert_equal "http://turing.io", html.at_css("a")['href']
+	end
 
-  def test_it_says_goodbye
-    get '/goodbye'
-    assert last_response.ok?
-    assert_equal "Goodbye!", last_response.body
-  end
+	def test_it_has_an_artists_section_for_say_something
+		get '/say/say-something'
+		html = Nokogiri::HTML(last_response.body)
+		section = html.css('section')
+		artists = section.css('li').map{ |li| li.text }
 
-  def test_it_only_says_goodbye_to_get_requests
-  	post '/goodbye'
-  	assert_equal 404, last_response.status
-  	# implement not_found in the app and
-  	# test for the correct error message
-  end
+		assert_equal 3, artists.length
+		assert_equal "Artists:", section.css('h3').text
+		assert_equal 3, artists.size
+		assert_includes artists, "Christina Aguilera"
+	end
 
-  def test_it_says_hello_when_given_a_name_parameter
-  	post '/hello', {name: "Rachel"}
-  	assert last_response.ok?
-  	assert last_response.body.include?("Rachel")
-  end
+	def test_it_has_a_video_for_so_fancy
+		skip
+		# implement me!
+	end
 
-  def test_it_asks_a_question_when_given_a_food_parameter
-  	# implement me!
-  end
-
-  def test_it_knows_our_favorite_language
-  	get '/language/ruby'
-  	assert last_response.ok?
-  	assert_equal "ruby is a great language", last_response.body
-  end
-
-  def test_it_follows_a_redirect
-  	get '/goodbye/rachel'
-  	assert_equal 302, last_response.status #redirect
-  	follow_redirect!
-  	assert_equal "goodbye rachel", last_response.body
-  end
-
-  # def test_it...
-  	# add a test for another redirect
-  # end
+	# def test_something_else_using_nokogiri
+		# implement me!
+	# end
 
 end
