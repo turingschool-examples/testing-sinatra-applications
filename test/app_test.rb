@@ -18,13 +18,16 @@ class TalkerTest < Minitest::Test
   end
 
   def test_it_says_goodbye
-    post '/goodbye'
+    get '/goodbye'
     assert last_response.ok?
     assert_equal "Goodbye!", last_response.body
   end
 
-  def test_it_asks_a_question
-  	# implement me!
+  def test_it_only_says_goodbye_to_get_requests
+  	post '/goodbye'
+  	assert_equal 404, last_response.status
+  	# implement not_found in the app and
+  	# test for the correct error message
   end
 
 end

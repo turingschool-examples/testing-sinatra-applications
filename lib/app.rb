@@ -4,7 +4,7 @@ class Talker < Sinatra::Base
     'Hello, World'
   end
 
-  post '/goodbye' do
+  get '/goodbye' do
   	"Goodbye!"
   end
 
