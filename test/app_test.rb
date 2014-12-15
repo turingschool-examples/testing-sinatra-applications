@@ -12,10 +12,19 @@ class TalkerTest < Minitest::Test
 
   def test_it_says_hello_world
     get '/'
-    # p last_response
     assert last_response.ok?
     assert_equal 200, last_response.status
     assert_equal "Hello, World", last_response.body
+  end
+
+  def test_it_says_goodbye
+    post '/goodbye'
+    assert last_response.ok?
+    assert_equal "Goodbye!", last_response.body
+  end
+
+  def test_it_asks_a_question
+  	# implement me!
   end
 
 end
